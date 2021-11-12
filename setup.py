@@ -5,7 +5,7 @@ from setuptools import setup
 with open("README.md", "r") as f:
     readme = f.read()
 
-install_reqs = parse_requirements(open('requirements.txt', 'r'))
+install_reqs = ['numpy', 'scipy', 'matplotlib']
 
 setup(
     name="jburt",
