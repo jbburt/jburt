@@ -38,3 +38,21 @@ def aggregate(root_dir: PathLike, fname: str, figsize=(9, 9)):
         pdf.savefig(fig)
         plt.close(fig)
     pdf.close()
+
+
+def prettify_legend(leg: matplotlib.legend.Legend, lw: int = 0, fc: str = 'none'):
+    """
+    Prettify legend.
+
+    Parameters
+    ----------
+    leg: matplotlib.legend.Legend
+        legend
+    lw : int, optional (default 0)
+        bbox line width
+    fc : str, optional (default 'none')
+        facecolor
+
+    """
+    leg.get_frame().set_facecolor(fc)
+    leg.get_frame().set_linewidth(lw)
