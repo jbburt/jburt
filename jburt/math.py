@@ -2,7 +2,6 @@
 General mathematical transformations and statistical methods.
 
 """
-from typing import Literal
 
 import numpy as np
 from scipy.stats import zscore
@@ -35,7 +34,7 @@ def modified_zscore(x: np.ndarray) -> np.ndarray:
 def find_outliers(scores: np.ndarray,
                   threshold: float = 3.0,
                   max_iter: int = 5,
-                  tail: Literal[-1, 1, 0] = 0) -> np.ndarray:
+                  tail: int = 0) -> np.ndarray:
     """
     Find outliers via iterated z-scoring.
 
