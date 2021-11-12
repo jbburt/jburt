@@ -4,7 +4,7 @@ import matplotlib
 from matplotlib import image as mpimg
 from matplotlib import pyplot as plt
 
-from .typing import PathLike
+from .types import PathLike
 
 
 def aggregate(root_dir: PathLike, fname: str, figsize=(9, 9)):
