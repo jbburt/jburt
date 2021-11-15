@@ -80,7 +80,7 @@ def jitter(xc: Numeric,
     h : Numeric
         image height
     pad: float, optional (default 0.03)
-        scale factor to compute radius, multiplied by max(w, h)
+        scale factor to compute radius
 
     Returns
     -------
@@ -89,7 +89,6 @@ def jitter(xc: Numeric,
 
     """
     theta = np.random.rand(1) * 2 * np.pi
-    r = max(w, h) * pad
-    xd = r * np.sin(theta)
-    yd = r * np.cos(theta)
+    xd = w * pad * np.cos(theta)
+    yd = h * pad * np.sin(theta)
     return xc + xd, yc + yd
