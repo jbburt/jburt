@@ -1,9 +1,12 @@
 import pathlib
+from typing import Tuple
 
 import matplotlib
+import numpy as np
 from matplotlib import image as mpimg
 from matplotlib import pyplot as plt
 
+from .types import Numeric
 from .types import PathLike
 
 
@@ -56,3 +59,37 @@ def prettify_legend(leg: matplotlib.legend.Legend, lw: int = 0, fc: str = 'none'
     """
     leg.get_frame().set_facecolor(fc)
     leg.get_frame().set_linewidth(lw)
+
+
+def jitter(xc: Numeric,
+           yc: Numeric,
+           w: Numeric,
+           h: Numeric,
+           pad: float = 0.03) -> Tuple[float]:
+    """
+    Use a random angle to jitter an object's anchor point.
+
+    Parameters
+    ----------
+    xc : Numeric
+        x center
+    yc : Numeric
+        y center
+    w : Numeric
+        image width
+    h : Numeric
+        image height
+    pad: float, optional (default 0.03)
+        scale factor to compute radius, multiplied by max(w, h)
+
+    Returns
+    -------
+    (float, float)
+        (x-jittered, y-jittered)
+
+    """
+    theta = np.random.rand(1) * 2 * np.pi
+    r = max(w, h) * pad
+    xd = r * np.sin(theta)
+    yd = r * np.cos(theta)
+    return xc + xd, yc + yd
