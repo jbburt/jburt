@@ -63,9 +63,8 @@ def prettify_legend(leg: matplotlib.legend.Legend, lw: int = 0, fc: str = 'none'
 
 def jitter(xc: Numeric,
            yc: Numeric,
-           w: Numeric,
-           h: Numeric,
-           pad: float = 0.03) -> Tuple[float]:
+           r: Numeric,
+           n: int = 1) -> Tuple[float]:
     """
     Use a random angle to jitter an object's anchor point.
 
@@ -75,20 +74,20 @@ def jitter(xc: Numeric,
         x center
     yc : Numeric
         y center
-    w : Numeric
-        image width
-    h : Numeric
-        image height
-    pad: float, optional (default 0.03)
-        scale factor to compute radius
+    r : Numeric
+        radius
+    n : int, optional (default 1)
+        number of samples to generate
 
     Returns
     -------
-    (float, float)
-        (x-jittered, y-jittered)
+    float or (n,) np.ndarray
+        x-jittered
+    float or (n,) np.ndarray
+        y-jittered
 
     """
-    theta = np.random.rand(1) * 2 * np.pi
-    xd = w * pad * np.cos(theta)
-    yd = h * pad * np.sin(theta)
+    theta = np.random.rand(n) * 2 * np.pi
+    xd = r * np.cos(theta)
+    yd = r * np.sin(theta)
     return xc + xd, yc + yd
