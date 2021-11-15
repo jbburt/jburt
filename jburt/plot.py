@@ -1,5 +1,6 @@
 import pathlib
 from typing import Tuple
+from typing import Union
 
 import matplotlib
 import numpy as np
@@ -64,7 +65,8 @@ def prettify_legend(leg: matplotlib.legend.Legend, lw: int = 0, fc: str = 'none'
 def jitter(xc: Numeric,
            yc: Numeric,
            r: Numeric,
-           n: int = 1) -> Tuple[float]:
+           n: int = 1
+           ) -> Tuple[Union[float, np.ndarray], Union[float, np.ndarray]]:
     """
     Use a random angle to jitter an object's anchor point.
 
