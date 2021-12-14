@@ -9,7 +9,7 @@ install_reqs = ['numpy', 'scipy', 'matplotlib']
 
 setup(
     name="jburt",
-    version="0.0.0",
+    version="0.1.0",
     author="Josh Burt",
     author_email="joshuaburtphd@gmail.com",
     include_package_data=True,
