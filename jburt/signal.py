@@ -6,7 +6,7 @@ import numpy as np
 from scipy.interpolate import CubicSpline
 from scipy.signal import welch
 
-from .typing import Numeric
+from .types import Numeric
 
 
 def fwhm_spline(waveform: np.ndarray, upsample: int = 100) -> float:

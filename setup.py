@@ -5,11 +5,11 @@ from setuptools import setup
 with open("README.md", "r") as f:
     readme = f.read()
 
-install_reqs = parse_requirements(open('requirements.txt', 'r'))
+install_reqs = ['numpy', 'scipy', 'matplotlib']
 
 setup(
     name="jburt",
-    version="0.0.0",
+    version="0.1.0",
     author="Josh Burt",
     author_email="joshuaburtphd@gmail.com",
     include_package_data=True,

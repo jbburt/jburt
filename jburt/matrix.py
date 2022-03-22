@@ -49,11 +49,11 @@ def find_diagonal_blocks(mat: np.ndarray) -> np.ndarray:
     n, m = mat.shape
     assert n == m  # square
     assert np.allclose(mat, mat.T)  # symmetric
-    assert set(np.unique(mat)) == {0, 1}  # binary
+    assert set(np.unique(mat)).issubset({0, 1})  # binary
     inds = np.zeros(n)
     uid = 1
     i = 0
-    while i <= n:
+    while i < (n-1):
         j = i + 2
         while j <= n:
             # get current subblock
@@ -63,8 +63,8 @@ def find_diagonal_blocks(mat: np.ndarray) -> np.ndarray:
             else:
                 j -= 1
                 break
-        if j - 1 > i:  # found nontrivial block
+        if (j - 1) > i:  # found nontrivial block
             inds[i:j] = uid
             uid += 1
         i = j
-    return inds
+    return inds.astype(int)
