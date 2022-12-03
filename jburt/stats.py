@@ -1,12 +1,11 @@
 from typing import Collection
-from typing import Tuple
 
 import numpy as np
 from scipy import special as special
 from scipy.stats import pearsonr
 from scipy.stats import rankdata
 
-from jburt.mask import mask_nan
+from .mask import mask_nan
 
 
 def nonparp(stat: float, null_dist: Collection) -> float:
@@ -92,7 +91,7 @@ def pearsonr_multi(X: np.ndarray, Y: np.ndarray) -> np.ndarray:
     return cov / np.dot(s_x[:, np.newaxis], s_y[np.newaxis, :])
 
 
-def spearmanr_multi(X: np.ndarray, Y: np.ndarray) -> np.ndarray:
+def spearmanr_multi(X, Y) -> np.ndarray:
     """
     Multi-dimensional Spearman rank correlation between rows of `X` and `Y`.
 
@@ -119,7 +118,7 @@ def spearmanr_multi(X: np.ndarray, Y: np.ndarray) -> np.ndarray:
     return pearsonr_multi(rankdata(X, axis=1), rankdata(Y, axis=1))
 
 
-def pairwise_r(X: np.ndarray, flatten: bool = False) -> np.ndarray:
+def pairwise_r(X, flatten=False) -> np.ndarray:
     """
     Compute pairwise Pearson's r between rows of `X`.
 
@@ -143,7 +142,7 @@ def pairwise_r(X: np.ndarray, flatten: bool = False) -> np.ndarray:
     return rp[triu_inds].flatten()
 
 
-def pairwise_rho(X: np.ndarray, flatten: bool = False) -> np.ndarray:
+def pairwise_rho(X, flatten=False) -> np.ndarray:
     """
     Compute pairwise Spearman's rho between rows of `X`.
 
@@ -167,7 +166,7 @@ def pairwise_rho(X: np.ndarray, flatten: bool = False) -> np.ndarray:
     return rp[triu_inds].flatten()
 
 
-def wmean(x: np.ndarray, w: np.ndarray) -> float:
+def wmean(x, w) -> float:
     """
     Compute weighted mean of an array.
 
@@ -187,7 +186,7 @@ def wmean(x: np.ndarray, w: np.ndarray) -> float:
     return np.sum(w * x) / np.sum(w)
 
 
-def wcov(x: np.ndarray, y: np.ndarray, w: np.ndarray) -> float:
+def wcov(x, y, w) -> float:
     """
     Compute weighted covariance between two arrays.
 
@@ -211,7 +210,7 @@ def wcov(x: np.ndarray, y: np.ndarray, w: np.ndarray) -> float:
     return np.sum(w * (x - wmean(x, w)) * (y - wmean(y, w))) / np.sum(w)
 
 
-def wcorr(x: np.ndarray, y: np.ndarray, w: np.ndarray) -> float:
+def wcorr(x, y, w) -> float:
     """
     Compute weighted correlation between two arrays.
 
@@ -264,11 +263,7 @@ def p_2tailed(r: float, n: int) -> float:
     return prob
 
 
-def pearsonr_weighted(
-        x: np.ndarray,
-        y: np.ndarray,
-        w: np.ndarray = None
-) -> Tuple[float]:
+def pearsonr_weighted(x, y, w=None):
     """
     Compute the weighted Pearson correlation coefficient.
 
