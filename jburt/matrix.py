@@ -10,7 +10,7 @@ from scipy.sparse.csgraph import reverse_cuthill_mckee
 def reorder_rcm(mat: np.ndarray, thresh: float) -> np.ndarray:
     """
     Compute permutation of matrix rows/cols that yields block-diagonal structure
-    per the reverse Cuthill-McKee algorithm.\
+    per the reverse Cuthill-McKee algorithm.
 
     Parameters
     ----------
