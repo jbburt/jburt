@@ -121,3 +121,130 @@ def update_style(ax, figbg='w', axbg='#e2e2e2', textcolor='k', gridcolor='w'):
     ax.title.set_color(textcolor)
     ax.figure.figure.set_facecolor(figbg)
     ax.set_facecolor(axbg)
+
+
+def relative_luminance(rgb):
+    # rgb = (r, g, b), where each element in [0, 255]
+    def _transf(x):
+        if x <= 10:
+            return x / 3294.
+        return (x / 269 + 0.0513) ** 2.4
+
+    Rg, Gg, Bg = map(_transf, rgb)
+
+    return 0.2126 * Rg + 0.7152 * Gg + 0.0722 * Bg
+
+
+def contrast_ratio(rgb):
+    # relative to white
+    # \equiv (L1 + 0.05) / (L2 + 0.05)
+    return 1.05 / (relative_luminance(rgb) + 0.05)
+
+
+def unique_color_cmap(n, cmap='hsv'):
+    """
+    Return a function that maps each index in 0, ... n-1 to a unique color.
+
+    Parameters
+    ----------
+    n : int
+        number of unique colors
+    cmap : str
+        colormap name
+
+    Returns
+    -------
+    callable
+        matplotlib.colors.ScalarMappable object
+
+    """
+    import matplotlib.cm as cmx
+    import matplotlib.colors as colors
+
+    color_norm = colors.Normalize(vmin=0, vmax=n - 1)
+    scalar_map = cmx.ScalarMappable(norm=color_norm, cmap=cmap)
+
+    def map_index_to_rgb_color(index):
+        """Generate cmx.ScalarMappable from integer index to unique color. """
+        return scalar_map.to_rgba(index)
+
+    return map_index_to_rgb_color
+
+
+def generate_colors(cmap='Spectral', i=0, n=8):
+    return plt.get_cmap(cmap)(i / float(n))
+
+
+def adjust_luminosity(color, amount=0.75):
+    """
+    Adjust luminosity of a color.
+
+    Source: https://stackoverflow.com/a/49601444/6447032
+
+    Parameters
+    ----------
+    color : str or tuple
+        hex string, matplotlib color string, or rgb tuple
+    amount : float
+        amount of adjustment; values above (below) 1 lighten (darken) color
+
+    Returns
+    -------
+    str
+        adjusted color as a hex string
+
+    """
+    import matplotlib.colors as mc
+    import colorsys
+    try:
+        c = mc.cnames[color]
+    except:
+        c = color
+    c = colorsys.rgb_to_hls(*mc.to_rgb(c))
+    # noinspection PyTypeChecker
+    tmp = colorsys.hls_to_rgb(c[0], max(0, min(1, amount * c[1])), c[2])
+    return mc.rgb2hex(tmp)
+
+
+def mix_colors(fc, bc, fc_alpha=0.5):
+    """
+    Combine two semi-transparent colors.
+
+    Source: https://stackoverflow.com/a/34096666
+
+    Parameters
+    ----------
+    fc : list[float]
+        foreground color [r,g,b]
+    bc : list[float]
+        background color [r,g,b]
+    fc_alpha : float, default 0.5
+        alpha (transparency) of foreground color
+
+    Returns
+    -------
+    list[float]
+        [r,g,b,a] of the color produced by overlapping `cf` and `cb`
+
+    """
+
+    assert len(fc) == len(bc) == 3
+    fc = list(fc) + [fc_alpha]
+    bc = list(bc) + [1]
+    a = bc[-1] + fc[-1] - bc[-1] * fc[-1]  # fixed alpha calculation
+    r = (fc[0] * fc[-1] + bc[0] * bc[-1] * (1 - fc[-1])) / a
+    g = (fc[1] * fc[-1] + bc[1] * bc[-1] * (1 - fc[-1])) / a
+    b = (fc[2] * fc[-1] + bc[2] * bc[-1] * (1 - fc[-1])) / a
+    return [r, g, b, a]
+
+
+def rgb2hex(rgb: list, keep_alpha=False) -> str:
+    return clrs.to_hex(rgb, keep_alpha=keep_alpha)
+
+
+def hex2rgb(color: str):
+    return clrs.to_rgb(color)
+
+
+def n_hex_colors(N: int) -> list[str]:
+    return [rgb2hex(generate_colors(DEFAULT_CMAP, i, N)) for i in range(N)]
