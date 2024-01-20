@@ -1,4 +1,3 @@
-# from pkg_resources import parse_requirements
 from setuptools import find_packages
 from setuptools import setup
 
@@ -19,17 +18,17 @@ install_reqs = [
 
 setup(
     name="jburt",
-    version="0.1.0",
+    version="0.2.0",
     author="Josh Burt",
     author_email="joshuaburtphd@gmail.com",
     include_package_data=True,
-    description="My personal library.",
+    description="Personal library.",
     long_description=readme,
     long_description_content_type="text/markdown",
     packages=find_packages(),
     install_requires=install_reqs,
     python_requires=">=3",
     classifiers=[
-        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
     ],
 )
