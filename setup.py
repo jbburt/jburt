@@ -18,7 +18,7 @@ install_reqs = [
 
 setup(
     name="jburt",
-    version="0.2.0",
+    version="0.3.0",
     author="Josh Burt",
     author_email="joshuaburtphd@gmail.com",
     include_package_data=True,
