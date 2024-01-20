@@ -1,3 +1,9 @@
 numpy
+torch
+pandas
+openai
 scipy
 matplotlib
+pyarrow
+black
+ipython

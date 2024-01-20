@@ -1,11 +1,21 @@
-from pkg_resources import parse_requirements
+# from pkg_resources import parse_requirements
 from setuptools import find_packages
 from setuptools import setup
 
 with open("README.md", "r") as f:
     readme = f.read()
 
-install_reqs = ['numpy', 'torch', 'pandas', 'openai', 'unidecoder', 'scipy', 'matplotlib']
+install_reqs = [
+    "numpy",
+    "torch",
+    "pandas",
+    "openai",
+    "scipy",
+    "matplotlib",
+    "openai",
+    "pyarrow",
+    "black",
+]
 
 setup(
     name="jburt",
@@ -18,7 +28,7 @@ setup(
     long_description_content_type="text/markdown",
     packages=find_packages(),
     install_requires=install_reqs,
-    python_requires='>=3',
+    python_requires=">=3",
     classifiers=[
         "Programming Language :: Python :: 3.9",
     ],
