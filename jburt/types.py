@@ -6,8 +6,8 @@ import numpy as np
 
 Shape = TypeVar("Shape")
 DType = TypeVar("DType")
-PathLike = TypeVar('PathLike', str, pathlib.Path)
-Numeric = TypeVar('Numeric', int, float, complex, np.number)
+PathLike = TypeVar("PathLike", str, pathlib.Path)
+Numeric = TypeVar("Numeric", int, float, complex, np.number)
 
 
 class Array(np.ndarray, Generic[Shape, DType]):
@@ -19,4 +19,5 @@ class Array(np.ndarray, Generic[Shape, DType]):
 
     Copied from https://stackoverflow.com/a/64032593
     """
+
     pass

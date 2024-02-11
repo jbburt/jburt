@@ -25,24 +25,24 @@ def aggregate(root_dir: PathLike, fname: str, figsize=(9, 9)):
     """
     if not isinstance(root_dir, pathlib.Path):
         root_dir = pathlib.Path(root_dir)
-    fout = root_dir.joinpath(fname).with_suffix('.pdf')
-    files = list(root_dir.glob('*.png'))
+    fout = root_dir.joinpath(fname).with_suffix(".pdf")
+    files = list(root_dir.glob("*.png"))
     if not files:
-        raise RuntimeError(f'no png images exist in {str(root_dir)}')
+        raise RuntimeError(f"no png images exist in {str(root_dir)}")
     pdf = PdfPages(str(fout))
     for file in files:
-        if file.suffix not in ['.pdf', '.png']:
+        if file.suffix not in [".pdf", ".png"]:
             continue
         fig, ax = plt.subplots(figsize=figsize)
         img = mpimg.imread(file)
         ax.imshow(img)
-        ax.axis('off')
+        ax.axis("off")
         pdf.savefig(fig)
         plt.close(fig)
     pdf.close()
 
 
-def prettify_legend(leg, lw: int = 0, fc: str = 'none'):
+def prettify_legend(leg, lw: int = 0, fc: str = "none"):
     """
     Prettify legend.
 
@@ -90,32 +90,40 @@ def jitter(xc: Numeric, yc: Numeric, r: Numeric, n: int = 1):
 
 
 def despine(ax):
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.xaxis.set_ticks_position('bottom')
-    ax.yaxis.set_ticks_position('left')
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.xaxis.set_ticks_position("bottom")
+    ax.yaxis.set_ticks_position("left")
 
 
 def detach(ax, amount=10):
-    ax.spines['left'].set_position(('outward', amount))
-    ax.spines['bottom'].set_position(('outward', amount))
-    ax.xaxis.set_ticks_position('bottom')
-    ax.yaxis.set_ticks_position('left')
+    ax.spines["left"].set_position(("outward", amount))
+    ax.spines["bottom"].set_position(("outward", amount))
+    ax.xaxis.set_ticks_position("bottom")
+    ax.yaxis.set_ticks_position("left")
 
 
 def ticks_outward(ax):
-    ax.tick_params(axis='x', direction='out')
-    ax.tick_params(axis='y', direction='out')
+    ax.tick_params(axis="x", direction="out")
+    ax.tick_params(axis="y", direction="out")
 
 
-def update_style(ax, figbg='w', axbg='#e2e2e2', textcolor='k', gridcolor='w'):
-    for side in ['top', 'right', 'bottom', 'left']:
+def update_style(ax, figbg="w", axbg="#e2e2e2", textcolor="k", gridcolor="w"):
+    for side in ["top", "right", "bottom", "left"]:
         ax.spines[side].set_visible(False)
-    ax.grid(axis='both', color=gridcolor, linestyle='-', linewidth=1, alpha=0.5)
-    ax.tick_params(axis='both', which='both', bottom=False, top=False,
-                   left=False, right=False, labelbottom=True, length=0)
+    ax.grid(axis="both", color=gridcolor, linestyle="-", linewidth=1, alpha=0.5)
+    ax.tick_params(
+        axis="both",
+        which="both",
+        bottom=False,
+        top=False,
+        left=False,
+        right=False,
+        labelbottom=True,
+        length=0,
+    )
     ax.set_axisbelow(True)
-    ax.tick_params(axis='both', colors=textcolor)
+    ax.tick_params(axis="both", colors=textcolor)
     ax.xaxis.label.set_color(textcolor)
     ax.yaxis.label.set_color(textcolor)
     ax.title.set_color(textcolor)
@@ -127,7 +135,7 @@ def relative_luminance(rgb):
     # rgb = (r, g, b), where each element in [0, 255]
     def _transf(x):
         if x <= 10:
-            return x / 3294.
+            return x / 3294.0
         return (x / 269 + 0.0513) ** 2.4
 
     Rg, Gg, Bg = map(_transf, rgb)
@@ -141,7 +149,7 @@ def contrast_ratio(rgb):
     return 1.05 / (relative_luminance(rgb) + 0.05)
 
 
-def unique_color_cmap(n, cmap='hsv'):
+def unique_color_cmap(n, cmap="hsv"):
     """
     Return a function that maps each index in 0, ... n-1 to a unique color.
 
@@ -165,13 +173,13 @@ def unique_color_cmap(n, cmap='hsv'):
     scalar_map = cmx.ScalarMappable(norm=color_norm, cmap=cmap)
 
     def map_index_to_rgb_color(index):
-        """Generate cmx.ScalarMappable from integer index to unique color. """
+        """Generate cmx.ScalarMappable from integer index to unique color."""
         return scalar_map.to_rgba(index)
 
     return map_index_to_rgb_color
 
 
-def generate_colors(cmap='Spectral', i=0, n=8):
+def generate_colors(cmap="Spectral", i=0, n=8):
     return plt.get_cmap(cmap)(i / float(n))
 
 
@@ -196,6 +204,7 @@ def adjust_luminosity(color, amount=0.75):
     """
     import matplotlib.colors as mc
     import colorsys
+
     try:
         c = mc.cnames[color]
     except:

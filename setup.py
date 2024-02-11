@@ -14,6 +14,8 @@ install_reqs = [
     "openai",
     "pyarrow",
     "black",
+    "tiktoken",
+    "langchain",
 ]
 
 setup(
