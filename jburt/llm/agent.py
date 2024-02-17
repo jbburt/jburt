@@ -3,9 +3,11 @@ import pathlib
 from collections import deque
 from os import environ as e_
 from typing import Any
-from jburt.objects import dotdict
+
 import openai
 from openai.types.chat import ChatCompletion
+
+from jburt.objects import dotdict
 
 __all__ = ["Conversation", "Response", "Cache", "ConvoCache"]
 
