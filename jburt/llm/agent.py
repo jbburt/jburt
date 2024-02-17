@@ -17,21 +17,6 @@ class Chatbot:
 
     max_convo_length = 6
 
-    client = openai.OpenAI()
-    messages = deque(maxlen=max_convo_length)
-
-    def __init__(self, system=None) -> None:
-        self.messages = [{"role": "system", "content": system or self.system}]
-
-    def __call__(self, content: str) -> str:
-        self.messages.append({"role": "user", "content": content})
-        response = Agent.send_receive(self.messages)
-        self.messages.append(response)
-        return response["content"]
-
-    def get_convo(self) -> list:
-        return list(self.messages)
-
     @staticmethod
     def send_receive(messages, **kwargs) -> dict:
         if not all(isinstance(m, dict) for m in messages):
@@ -40,6 +25,23 @@ class Chatbot:
             messages=list(messages), **(Agent.params | (kwargs or {}))
         )
         return {"role": "system", "content": response.choices[0].message.content}
+
+    client = openai.OpenAI()
+    messages = deque(maxlen=max_convo_length)
+
+    def __init__(self, system=None) -> None:
+        self.messages = [{"role": "system", "content": system or self.system}]
+
+    def __call__(self, content: str) -> str:
+        self.messages.append({"role": "user", "content": content})
+        response = Chatbot.send_receive(
+            self.messages
+        )  # Fixed the reference to the class name
+        self.messages.append(response)
+        return response["content"]
+
+    def get_convo(self) -> list:
+        return list(self.messages)
 
 
 if __name__ == "__main__":
